@@ -32,15 +32,25 @@ def ploat_line(x1,y1,x2,y2):
     dx = x2-x1
     dy = y2-y1
     p = (2*dy)-dx
-    glBegin(GL_POINTS)   
-    while x<=x2:
-        glVertex2f(x,y)
-        x = x+1
-        if p<0:
-            p = p+(2*dy)
-        else:
-            p= p+((2*dy)-2*dx)
-            y=y+1
+    glBegin(GL_POINTS)  
+    if dx>dy: 
+        while x<=x2:
+            glVertex2f(x,y)
+            x = x+1
+            if p<0:
+                p = p+(2*dy)
+            else:
+                p= p+((2*dy)-2*dx)
+                y=y+1
+    else:
+        while y<=y2:
+            glVertex2f(x,y)
+            y = y+1
+            if p<0:
+                p = p+(2*dx)
+            else:
+                p= p+((2*dx)-2*dy)
+                x=x+1
     glEnd()
 
 def main():
