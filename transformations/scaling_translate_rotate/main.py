@@ -114,13 +114,16 @@ def translate_triangle(x1, y1, x2, y2, x3, y3, tx, ty):
 
 # rotation new x
 def rot_new_x(x,y,theta):
+    theta = theta*(3.14/180)
     return (x*math.cos(theta)-y*math.sin(theta))
 # rotation new y
 def rot_new_y(x,y,theta):
+    theta = theta*(3.14/180)
     return (x*math.sin(theta)+y*math.cos(theta))
 # draw rotate new and old triangle
 def rotate_triangle(x1,y1,x2,y2,x3,y3,theta,xr,yr):
     screen()
+    glLineWidth(5)
     glColor3f(1, 1, 1)
     plot_x_axis()
     glColor3f(1, 1, 1)
