@@ -69,6 +69,10 @@ def draw_triangle(x1, y1, x2, y2, x3, y3):
     glVertex2f(x1, y1)
     glEnd()
 
+
+def shear(x,y,sh,ref):
+    return (x+sh*(y-ref))
+
 def neg_value(x):
     return (-x)
 
@@ -82,22 +86,27 @@ def reflect_x_axis(x1, y1, x2, y2, x3, y3):
     glColor3f(1,0,0)
     draw_triangle(x1, y1, x2, y2, x3, y3)
     glColor3f(0,1,0)
-    #about x axis
-    draw_triangle(x1,neg_value(y1),x2,neg_value(y2),x3,neg_value(y3))
+    # #about x axis
+    # draw_triangle(x1,neg_value(y1),x2,neg_value(y2),x3,neg_value(y3))
+    # glColor3f(0,0,1)
+    # #about y axis
+    # draw_triangle(neg_value(x1),y1,neg_value(x2),y2,neg_value(x3),y3)
+    # glColor3f(1,1,0)
+    # #about orgin
+    # draw_triangle(neg_value(x1),neg_value(y1),neg_value(x2),neg_value(y2),neg_value(x3),neg_value(y3))
+    # #about y = x
+    # glColor3f(1,1,1)
+    # draw_triangle(y1,x1,y2,x2,y3,x3)
+
+    # x shearing
+    draw_triangle(shear(x1,y1,0.5,0),y1,shear(x2,y2,0.5,0),y2,shear(x2,y2,0.5,0),y3)
     glColor3f(0,0,1)
-    #about y axis
-    draw_triangle(neg_value(x1),y1,neg_value(x2),y2,neg_value(x3),y3)
-    glColor3f(1,1,0)
-    #about orgin
-    draw_triangle(neg_value(x1),neg_value(y1),neg_value(x2),neg_value(y2),neg_value(x3),neg_value(y3))
-    #about y = x
-    glColor3f(1,1,1)
-    draw_triangle(y1,x1,y2,x2,y3,x3)
+    draw_triangle(x1,shear(y1,x1,0.5,0),x2,shear(y2,x2,0.5,0),x3,shear(y3,x3,0.5,0))
     glutSwapBuffers()
 
 def main():
     initDisplay()
-    glutDisplayFunc(lambda:reflect_x_axis(150,60,400,60,175,100))
+    glutDisplayFunc(lambda:reflect_x_axis(100,100,400,100,250,300))
     glutMainLoop()
 
 main()
