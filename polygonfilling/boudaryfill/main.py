@@ -16,7 +16,7 @@ def refresh2D(width,height):
 
 def read_pixel(x,y):
     color = glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT)
-    
+
     return np.array([round(x) for x in color[0][0]])
 
 def ploat_pixel(x,y):
@@ -28,10 +28,9 @@ def ploat_pixel(x,y):
 
 def bound_it( x, y, fill, bg):
     color = read_pixel(x,y)
-    print(color)
     
-    fill = np.array(fill)
-    bg = np.array(bg)
+    # fill = np.array(fill)
+    # bg = np.array(bg)
     if(not all(color==fill)and not all(color==bg)):
             glColor3f(fill[0],fill[1],fill[2])
             ploat_pixel(x,y)
