@@ -16,8 +16,8 @@ def refresh2D(width,height):
 
 def read_pixel(x,y):
     color = glReadPixels(x,y,1,1,GL_RGB,GL_FLOAT)
-
-    return np.array([round(x) for x in color[0][0]])
+    return color[0][0]
+    #return np.array([round(x) for x in color[0][0]])
 
 def ploat_pixel(x,y):
    
@@ -50,7 +50,7 @@ def mouse(btn ,state,x,y):
     if(btn==GLUT_LEFT_BUTTON):
         if(state==GLUT_DOWN):
             bCol=[1,0,0]
-            color=[0,1,0]
+            color=[0,1,1]
             bound_it(x,500-y,color,bCol)
     
   
