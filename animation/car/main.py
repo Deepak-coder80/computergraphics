@@ -6,6 +6,7 @@ import math
 import sys
 import random
 
+WINDOW_SIZE=200
 
 def init():
     glClearColor(0.0, 0.0, 0.0, 0.0)
@@ -49,9 +50,10 @@ def polarCircle(r, xc, yc):
 class Car:
     def __init__(self, point):
         self.refPoint = point       # the bottom left point of the car
-        self.length = 50
-        self.height = 35
-        self.radius = self.length * 0.1
+        self.length = 75
+        self.height = 45
+        self.radius = self.length * 0.2
+        self.angle = 40
 
     def drawCar(self):
         # Vertices of car body
@@ -90,30 +92,94 @@ class Car:
 
         glEnd()
 
+        # inside line 
+        x = self.radius * math.cos(math.pi/180*self.angle)+tyres[0][0]
+        y = self.radius * math.sin(math.pi/180*self.angle)+tyres[0][1]
+        glColor(1,0,0)
+        glBegin(GL_LINES)
+        glVertex2f(tyres[0][0],tyres[0][1])
+        glVertex2f(x,y)
+        glEnd()
+
+        x = self.radius * math.cos(math.pi/180*self.angle)+tyres[1][0]
+        y = self.radius * math.sin(math.pi/180*self.angle)+tyres[1][1]
+        glColor(1,0,0)
+        glBegin(GL_LINES)
+        glVertex2f(tyres[1][0],tyres[1][1])
+        glVertex2f(x,y)
+        glEnd()
+       
+
+
         glutSwapBuffers()
 
-    def update(self, value):
+    def update(self, value,key,hor):
 
-        self.refPoint[0] += value
+        self.movement(value,hor,key)
+        self.updateSpark(key)
         glutPostRedisplay()
 
-    def update2(self, value):
-        self.refPoint[1] += value
-        glutPostRedisplay()
+    def movement(self,value,hor,key):
+        if key=='a':
+            if self.refPoint[0]>-WINDOW_SIZE:
+                if hor == 1:
+                    self.refPoint[0] += value
+                else:
+                    self.refPoint[1] += value
+            else: 
+                self.refPoint[0]=100
+        if key=='d' or key=='t':
+            if self.refPoint[0]<=WINDOW_SIZE-100:
+                if hor == 1:
+                    self.refPoint[0] += value
+                else:
+                    self.refPoint[1] += value
+            else: 
+                self.refPoint[0]=-200
+        if key=='w':
+            if self.refPoint[1]<=WINDOW_SIZE-100:
+                if hor == 1:
+                    self.refPoint[0] += value
+                else:
+                    self.refPoint[1] += value
+            else: 
+                self.refPoint[1]=-150
+        if key=='s':
+            if self.refPoint[1]>-WINDOW_SIZE+30:
+                if hor == 1:
+                    self.refPoint[0] += value
+                else:
+                    self.refPoint[1] += value
+            else: 
+                self.refPoint[1]=150
+
+    def updateSpark(self,key):
+        if key == 'a':
+            self.angle+=10
+        elif key == 'd':
+            self.angle -=10
+        elif key == 't':
+            self.angle -=30
+        elif key == 'w':
+            self.angle -= 50
+        else :
+            self.angle += 50
+
+   
 
     def keyboard(self, key, x, y):
 
         key = key.decode()
         if key == 'd':
-            self.update(1)
+            self.update(1,'d',1)
         elif key == 'a':
-            self.update(-1)
+            self.update(-1,'a',1)
         elif key == 'w':
-            self.update2(1)
+            self.update(1,'w',0)
         elif key == 's':
-            self.update2(-1)
+            self.update(-1,'s',0)
         elif key == 't':
-            self.update(3)
+            self.update(3,'t',1)
         elif key == 'h':
             playsound('horn.mp3')
         elif key=='j':
