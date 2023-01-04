@@ -6,6 +6,7 @@ import math
 import sys
 import random
 
+
 def init():
     glClearColor(0.0, 0.0, 0.0, 0.0)
     gluOrtho2D(-200.0, 200.0, -200.0, 200.0)
@@ -21,7 +22,7 @@ def glutFunct():
 
 
 def polarCircle(r, xc, yc):
-    
+
     xPoints = []
     yPoints = []
     pi = math.pi
@@ -70,10 +71,10 @@ class Car:
 
         glClear(GL_COLOR_BUFFER_BIT)
         glLineWidth(2.0)
-        
+
         # Car body
         glBegin(GL_POLYGON)
-
+        glColor3f(1,1,0)
         for i in vertices:
             glVertex2fv(i)
 
@@ -81,7 +82,7 @@ class Car:
 
         # Car tyres
         glBegin(GL_LINES)
-
+        glColor3f(1,0,1)
         for i in tyres:
             points = polarCircle(self.radius, i[0], i[1])
             for p in points:
@@ -92,31 +93,32 @@ class Car:
         glutSwapBuffers()
 
     def update(self, value):
-        
+
         self.refPoint[0] += value
         glutPostRedisplay()
-        
 
-    def update2(self,value):
-        self.refPoint[1]+=value
+    def update2(self, value):
+        self.refPoint[1] += value
         glutPostRedisplay()
 
-    def keyboard(self,key,x,y):
-         
+    def keyboard(self, key, x, y):
+
         key = key.decode()
-        if key=='d':
-           self.update(1)
-        elif key=='a':
+        if key == 'd':
+            self.update(1)
+        elif key == 'a':
             self.update(-1)
-        elif key=='w':
+        elif key == 'w':
             self.update2(1)
-        elif key=='s':
+        elif key == 's':
             self.update2(-1)
-        elif key=='t':
+        elif key == 't':
             self.update(3)
-        elif key=='h':            
+        elif key == 'h':
             playsound('horn.mp3')
-            
+        elif key=='j':
+            playsound('CarHorn.mp3')
+
 
 def main():
     print("press:\n D to move forward ,\n A to move backward,\n W to move up ,\n S to move down ,\n T to move fast forward,\n H to Horn")
